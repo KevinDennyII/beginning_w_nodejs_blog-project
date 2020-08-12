@@ -6,7 +6,7 @@ NodeJS's ability to both executed and develop on the server-side and client side
 
 Embedded JavaScript(.ejs) allowing the redering of HTML output which encourages the reuse of code snippets to decrease replication within an application. This is using a templating engine which allows for abstractions of the app into different layouts.
 
-# Callback Hell
+# "Callback Hell"
 
 This is considered "callback hell" bcause of the nested callbacks
 and not good for scalability as your app grows more complext
@@ -45,3 +45,5 @@ Code for checking for null image also
             res.redirect("/");
           }
         });
+
+Hooks are just like middle ware
