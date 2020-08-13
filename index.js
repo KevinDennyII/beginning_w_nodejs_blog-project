@@ -5,6 +5,7 @@ const { restart } = require("nodemon");
 
 // Controllers
 const homeController = require("./controllers/home");
+const loginController = require("./controllers/login");
 const newPostController = require("./controllers/newPost");
 const storePostController = require("./controllers/storePost");
 const getPostContstroller = require("./controllers/getPost");
@@ -45,6 +46,7 @@ app.get("/", homeController);
 app.get("/post/:id", getPostContstroller);
 app.get("/posts/new", newPostController);
 app.get("/auth/register", newUserController);
+app.get("/auth/login", loginController);
 
 // POST requests
 app.post("/posts/store", storePostController);

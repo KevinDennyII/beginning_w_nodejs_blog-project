@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
+// User Schema with validations provided by Mongoose
 const UserSchema = new Schema({
-  username: String,
-  password: String,
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
 /* Notice the call to next(). Calling this function invokes the next middleware function in the app. The next() function is not a part of the Node.js or Express API, but is the third argument that is passed to the middleware function. The next() function could be named anything, but by convention it is always named “next”. To avoid confusion, always use this convention.*/
