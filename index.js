@@ -12,6 +12,7 @@ const getPostContstroller = require("./controllers/getPost");
 const newUserController = require("./controllers/newUser");
 const storeUserController = require("./controllers/storeUser");
 const validateMiddleWare = require("./middleware/validationMiddleware");
+const loginUserController = require("./controllers/loginUser");
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/my_database", {
@@ -51,3 +52,4 @@ app.get("/auth/login", loginController);
 // POST requests
 app.post("/posts/store", storePostController);
 app.post("/users/register", storeUserController);
+app.post("/users/login", loginUserController);
