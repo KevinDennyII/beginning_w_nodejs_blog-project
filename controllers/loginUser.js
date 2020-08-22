@@ -11,8 +11,9 @@ module.exports = (req, res) => {
       // we use .compare instead of === to prevent a hacker trick called timing attack
       bcrypt.compare(password, user.password, (error, same) => {
         if (same) {
-          // if passwords match
-          // store user session
+          // if passwords match, store user session
+          // session package saves the data on the user's browswer each time a user makes a request
+          req.session.userId = user._id;
           res.redirect("/");
         } else {
           res.redirect("/auth/login");
