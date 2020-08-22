@@ -94,3 +94,5 @@ app.post(
   redirectIfAuthenticatedMiddleware,
   loginUserController
 );
+// this must be done after registeration of all routes!
+app.use((req, res) => res.render("notfound"));
