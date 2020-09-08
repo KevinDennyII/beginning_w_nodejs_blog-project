@@ -1,8 +1,10 @@
-module.exports = (req, res) => {
-  // if a userid exist in the session show the create post page
-  // if not return the user to the login page
-  if (req.session.userId) {
-    return res.render("create");
+module.exports = (req, res) =>{
+// if session contains user id
+  if(req.session.userId){
+    return res.render("create",{
+      createPost: true
+    });
   }
-  res.redirect("/auth/login");
-};
+  // session doesn't contain user id
+  res.redirect('/auth/login')
+}

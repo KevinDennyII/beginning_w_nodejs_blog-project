@@ -1,6 +1,7 @@
-module.exports = (req, res) => {
-  // destroy all session when logging out
-  req.session.destroy(() => {
-    res.redirect("/");
-  });
-};
+module.exports = (req, res) =>{
+  req.session.destroy(() =>{
+    res.redirect('/')
+  }) 
+}
+
+// destroy all session data including user id

@@ -1,7 +1,7 @@
 {
   "title": "Clean Blog",
   "name": "startbootstrap-clean-blog",
-  "version": "5.0.9",
+  "version": "5.0.5",
   "scripts": {
     "start": "nodemon index.js"
   },
@@ -14,9 +14,9 @@
     "theme",
     "template"
   ],
-  "homepage": "https://startbootstrap.com/themes/clean-blog",
+  "homepage": "https://startbootstrap.com/template-overviews/clean-blog",
   "bugs": {
-    "url": "https://github.com/StartBootstrap/startbootstrap-clean-blog/issues",
+    "url": "https://github.com/BlackrockDigital/startbootstrap-clean-blog/issues",
     "email": "feedback@startbootstrap.com"
   },
   "license": "MIT",
@@ -26,34 +26,36 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StartBootstrap/startbootstrap-clean-blog.git"
+    "url": "git+https://github.com/BlackrockDigital/startbootstrap-clean-blog.git"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.13.0",
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "bootstrap": "4.5.0",
-    "cors": "^2.8.5",
-    "ejs": "^3.1.3",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.1.10",
-    "express-session": "^1.17.1",
-    "jquery": "3.5.1",
-    "mongoose": "^5.9.27"
+    "@fortawesome/fontawesome-free": "5.8.1",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.18.3",
+    "bootstrap": "4.3.1",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.2.0",
+    "express-session": "^1.16.1",
+    "jquery": "^3.5.1",
+    "mongoose": "^5.5.1",
+    "mongoose-unique-validator": "^2.0.3",
+    "node-sass": "^4.14.1"
   },
   "devDependencies": {
     "browser-sync": "^2.26.12",
-    "del": "5.1.0",
-    "gulp": "4.0.2",
-    "gulp-autoprefixer": "7.0.1",
-    "gulp-clean-css": "4.3.0",
-    "gulp-header": "2.0.9",
+    "del": "4.0.0",
+    "gulp": "4.0.0",
+    "gulp-autoprefixer": "6.0.0",
+    "gulp-clean-css": "4.0.0",
+    "gulp-header": "2.0.7",
     "gulp-plumber": "^1.2.1",
-    "gulp-rename": "2.0.0",
-    "gulp-sass": "4.1.0",
+    "gulp-rename": "1.4.0",
+    "gulp-sass": "4.0.2",
     "gulp-uglify": "3.0.2",
-    "merge-stream": "2.0.0",
-    "nodemon": "^2.0.4"
+    "merge-stream": "^1.0.1",
+    "nodemon": "^1.18.11"
   },
-  "main": "gulpfile.js"
+  "main": "index.js"
 }

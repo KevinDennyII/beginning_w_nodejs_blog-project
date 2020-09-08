@@ -1,98 +1,100 @@
-const express = require("express");
-var cors = require("cors");
-const ejs = require("ejs");
-const { restart } = require("nodemon");
+const express = require('express')
 
-// Controllers
-const homeController = require("./controllers/home");
-const loginController = require("./controllers/login");
-const newPostController = require("./controllers/newPost");
-const storePostController = require("./controllers/storePost");
-const getPostContstroller = require("./controllers/getPost");
-const newUserController = require("./controllers/newUser");
-const storeUserController = require("./controllers/storeUser");
-const validateMiddleware = require("./middleware/validationMiddleware");
-const loginUserController = require("./controllers/loginUser");
-const logoutController = require("./controllers/logout");
+const app = new express()
+const ejs = require('ejs')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload') 
 
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/my_database", {
-  useNewUrlParser: true,
-});
+const newPostController = require('./controllers/newPost')
+const homeController = require('./controllers/home')
+const storePostController = require('./controllers/storePost')
+const getPostController = require('./controllers/getPost')
+const newUserController = require('./controllers/newUser')
+const storeUserController = require('./controllers/storeUser')
+const loginController = require('./controllers/login')
+const loginUserController = require('./controllers/loginUser')
+const expressSession = require('express-session');
+const logoutController = require('./controllers/logout')
 
-var app = new express();
-app.set("view engine", "ejs");
-app.use(express.static("public"));
+const validateMiddleware = require("./middleware/validateMiddleware");
+const authMiddleware = require('./middleware/authMiddleware');
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware')
+const flash = require('connect-flash');
 
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload()) 
 
-const fileUpload = require("express-fileupload");
-app.use(fileUpload());
+mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
 
-// Custom Middle Ware
-const customMiddleware = (req, res, next) => {
-  console.log("Custom middle ware called");
-  next();
-};
-app.use(customMiddleware);
-app.use("/posts/store", validateMiddleware);
-const authMiddleware = require("./middleware/authMiddleware");
-const redirectIfAuthenticatedMiddleware = require("./middleware/redirectIfAuthenticatedMiddleware");
+app.set('view engine','ejs')
 
-const expressSession = require("express-session");
-app.use(
-  // creating for signature and encryption
-  expressSession({
-    secret: "keyboard cat",
-  })
-);
+app.use(express.static('public'))
 
-app.listen(4000, () => {
-  console.log("App listening on port 4000");
-});
+app.listen(4000, ()=>{
+    console.log('App listening on port 4000 ...')    
+})
 
-// THIS MUST BE CALLED AFTER EXPRESS SESSION IS CREATED ABOVE
-// global login to be used for the navigation bar
-// we specificy the wildcard, "*", that on all requests,
-// middleware should be executed
+app.use('/posts/store',validateMiddleware) 
+
+app.use(expressSession({
+    secret: 'keyboard cat' 
+})) 
+
 global.loggedIn = null;
+
 app.use("*", (req, res, next) => {
-  loggedIn = req.session.userId;
-  next();
+    loggedIn = req.session.userId; 
+    next()   
 });
 
-// creating routes for pages
-app.get("/", homeController);
-app.get("/post/:id", getPostContstroller);
-app.get("/posts/new", newPostController);
-app.get("/auth/register", newUserController);
-app.get("/auth/login", loginController);
-// you must make to call authMiddleware BEFORE controller
-app.get("/posts/new", authMiddleware, newPostController);
-app.get("/post/store", authMiddleware, storePostController);
-app.get(
-  "/auth/register",
-  redirectIfAuthenticatedMiddleware,
-  newUserController
-);
-app.get("/auth/login", redirectIfAuthenticatedMiddleware, loginController);
-app.get("auth/logout", logoutController);
+app.use(flash());
 
-// POST requests
-app.post("/posts/store", storePostController);
-app.post("/users/register", storeUserController);
-app.post("/users/login", loginUserController);
-app.post(
-  "/user/register",
-  redirectIfAuthenticatedMiddleware,
-  storeUserController
-);
-app.post(
-  "/users/login",
-  redirectIfAuthenticatedMiddleware,
-  loginUserController
-);
-// this must be done after registeration of all routes!
-app.use((req, res) => res.render("notfound"));
+app.get('/posts/new',authMiddleware, newPostController)
+app.get('/',homeController)
+app.get('/post/:id',getPostController)        
+app.post('/posts/store', authMiddleware, storePostController)
+app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController)
+app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
+app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
+app.post('/users/login',redirectIfAuthenticatedMiddleware, loginUserController) 
+app.get('/auth/logout', logoutController)
+app.use((req, res) => res.render('notfound'));
+
+/*
+
+const validateMiddleWare = (req,res,next)=>{    
+    if(req.files == null || req.body.title == null || req.body.title == null){        
+        return res.redirect('/posts/new')
+    }    
+    next()
+}
+
+app.get('/post/:id',async (req,res)=>{        
+    const blogpost = await BlogPost.findById(req.params.id)
+    console.log(blogpost)
+    res.render('post',{
+        blogpost
+    });    
+})
+
+app.post('/posts/store', (req,res)=>{ 
+    let image = req.files.image;  
+    image.mv(path.resolve(__dirname,'public/img',image.name),async (error)=>{
+        await BlogPost.create({
+            ...req.body,
+            image: '/img/' + image.name
+        })
+        res.redirect('/')
+    })            
+})
+
+app.get('/',async (req,res)=>{    
+    console.log("home starting...")
+    const blogposts = await BlogPost.find({})         
+    res.render('index',{
+        blogposts
+    });
+})
+*/

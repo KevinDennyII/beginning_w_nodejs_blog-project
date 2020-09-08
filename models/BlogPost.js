@@ -1,18 +1,23 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-
+ 
 const BlogPostSchema = new Schema({
   title: String,
   body: String,
-  username: String,
-  datePosted: {
-    /* can declare property type with an object like this because we need 'default' */
+  //username: String,
+  userid: {
+    type: mongoose.Schema.Types.ObjectId, // suppose to be a valid mongodb object id. mongodb has specific ids for each doc and they have to be in a valid format
+    ref: 'User', // reference User collection 
+    required: true
+  },  
+  datePosted:{ 
     type: Date,
-    default: new Date(),
+    default: new Date()
   },
-  image: String,
+  image: String
 });
 
-// access datababase
-const BlogPost = mongoose.model("BlogPost", BlogPostSchema);
-module.exports = BlogPost;
+const BlogPost = mongoose.model('BlogPost',BlogPostSchema);
+module.exports = BlogPost
+
+
