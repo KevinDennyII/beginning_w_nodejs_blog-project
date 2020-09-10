@@ -35,8 +35,13 @@ app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 
-app.listen(4000, () => {
-  console.log("App listening on port 4000 ...");
+// Set up for using Heroku
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 4000;
+}
+app.listen(port, () => {
+  console.log(`App listening on port ${port} ...`);
 });
 
 app.use("/posts/store", validateMiddleware);
